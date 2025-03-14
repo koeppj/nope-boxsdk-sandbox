@@ -12,7 +12,7 @@ parser
 parser.command("getpath")
     .description("print the path of a given box file or folder")
     .argument("<id>", "The Box file or folder ID")
-    .option("--folder", "The ID is a Folder (default is File)")
+    .option("-f, --folder", "The ID is a Folder (default is File)")
     .action((id, options) => {
         return GetPath(id, options);
     });
