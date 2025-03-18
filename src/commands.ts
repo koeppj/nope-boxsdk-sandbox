@@ -4,12 +4,21 @@ import { config } from "./config";
 import { GetFolderItemsOptionalsInput } from "box-typescript-sdk-gen/lib/managers/folders.generated";
 import { FileFullOrFolderMiniOrWebLink } from "box-typescript-sdk-gen/lib/schemas/fileFullOrFolderMiniOrWebLink.generated";
 
-function getBoxClient(): BoxClient {
-    const ccgConfig = new CcgConfig({
-        clientId: config.clientId || '',
-        clientSecret: config.clientSecret || '',
-        enterpriseId: config.enterpriseId || ''
-    });
+function getBoxClient(user?: string | undefined): BoxClient {
+    let ccgConfig: CcgConfig;
+    if (user) {
+        ccgConfig = new CcgConfig({
+            clientId: config.clientId || '',
+            clientSecret: config.clientSecret || '',
+            enterpriseId: config.enterpriseId || ''
+        });
+    } else {
+        ccgConfig = new CcgConfig({
+            clientId: config.clientId || '',
+            clientSecret: config.clientSecret || '',
+            userId: user
+        });
+    }
     const auth = new BoxCcgAuth({config: ccgConfig});
     return new BoxClient({auth});
 }
