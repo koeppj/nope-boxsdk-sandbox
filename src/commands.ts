@@ -10,13 +10,13 @@ function getBoxClient(user?: string | undefined): BoxClient {
         ccgConfig = new CcgConfig({
             clientId: config.clientId || '',
             clientSecret: config.clientSecret || '',
-            enterpriseId: config.enterpriseId || ''
+            userId: user,
         });
     } else {
         ccgConfig = new CcgConfig({
             clientId: config.clientId || '',
             clientSecret: config.clientSecret || '',
-            userId: user
+            enterpriseId: config.enterpriseId || ''
         });
     }
     const auth = new BoxCcgAuth({config: ccgConfig});
@@ -143,5 +143,31 @@ export async function GetId(path: string, options: any): Promise<any> {
         return Promise.resolve();
     } catch (error) {
         Promise.reject(error)
+    }
+}
+
+export async function GetHoldPolicies(options: any): Promise<any> {
+    const boxClient = getBoxClient(options.user);
+    try {
+        const retentionPolicies = await boxClient.legalHoldPolicies.getLegalHoldPolicies();
+        console.log(JSON.stringify(retentionPolicies, null, 2));
+        return Promise.resolve();
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export async function GetUserByLogin(login: string, options: any): Promise<any> {
+    const boxClient = getBoxClient(options.user);
+    try {
+        const users = await boxClient.users.getUsers();
+        const user = users.entries?.find((user) => user.login === login);
+        if (user === undefined) {
+            return Promise.reject(`User with login ${login} not found`);
+        }
+        console.log(JSON.stringify(user, null, 2));
+        return Promise.resolve(user);
+    } catch (error) {
+        return Promise.reject(error);
     }
 }

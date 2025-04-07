@@ -19,12 +19,12 @@ Simple NODE command line utility to perform simple tasks using the [Box SDK for 
 ```
 * The same opteration for a folder
 ```
-> npm run start getpath -f <id>
+> npm run start getpath -- -f <id>
 ```
 * To get information of a Box item at a given path (could be a file, folder or weblink)
 ```
 > npm run start getid <path with or without forward slash>
 ```
 ### Notes
-* By default API calls are run as the service account user.  To run as a mananged user add the -u <userid> option to any command.
+* By default API calls are run as the service account user.  To run as a user add the -u <userid> option to any command.
 * Remember that all path expressions relative to folder 0 (All Files) and will differ based on the "effective" user making the API Calls.
